@@ -2,9 +2,9 @@
   "name": "Flipkart Advantage detector",
   "version": "0.1",
   "description": "Detects products with flipkart Advantage",
-  "manifest_version": 1,
+  "manifest_version": 2,
   "browser_action": {
-    "default_icon": "fka.png",
+    "default_icon": "icon_16.png"
     // "default_popup": "poker_info.html"
   },
   "content_scripts": [ {
