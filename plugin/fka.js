@@ -38,13 +38,19 @@
 
 	function updateDOMWithAdvantage(data){
 		//TODO: send data to server and get boolean key value pairs for advantage
+		console.log(data);	
 		$.ajax({
+			type: "GET",
 		    url: "http://127.0.0.1:8000",
+		    dataType: "json",
+		    data: {
+		    	jsonData: JSON.stringify(data)
+		    }
 		})
 		.done(function( resp ) {
 			console.log( "Sample of data:--------------------------------------" + resp );
 		});
-		console.log(data);	
+
 		
 		//put data from server in dom
 		var serverData = {
