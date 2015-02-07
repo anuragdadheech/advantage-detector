@@ -55,10 +55,7 @@
 		};
 
 		$.each( serverData, function( key, value ) {
-			$( "div[data-pid="+key+"]").parent().css({
-				"background-color": "yellow",
-				"font-weight": "bolder"
-		    });	
+			$( "div[data-pid="+key+"]").addClass("has-fka");	
 		});
 		
 	}
