@@ -31,14 +31,36 @@
 		var skuList = [];
 		$("a.fk-product-thumb", $(parent)).each(function() {
 			skuList.push($(this).parent().parent().attr("data-pid"));
+			console.log($(this).parent().parent().attr("data-pid"));
 		});
 		return skuList;
 	}
 
 	function updateDOMWithAdvantage(data){
-		//send data to server and get boolean key value pairs for advantage
-
+		//TODO: send data to server and get boolean key value pairs for advantage
+		console.log(data);	
+		
 		//put data from server in dom
+		var serverData = {
+			"ACCDZRSEYPFHAT76":true,
+			"ACCEFUJPZGK7PYM4":false,
+			"ACCEFYRV9RRFMJGR":true,
+			"ACCDKQYSSSFYSGFU":false,
+			"ACCDH45YMYXGESYU":false,
+			"ACCE38HCFCAMZZJJ":true,
+			"ACCDTSDEEYGTSBVG":true,
+			"ACCEFYRVQTKXPUFY":false,
+			"ACCDFE7NE2PNQAPR":true,
+			"ACCCWPEDXMGPS3CA":true
+		};
+
+		$.each( serverData, function( key, value ) {
+			$( "div[data-pid="+key+"]").parent().css({
+				"background-color": "yellow",
+				"font-weight": "bolder"
+		    });	
+		});
+		
 	}
 
 }());
