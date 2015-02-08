@@ -4,6 +4,7 @@
 	console.log("FK Advantage plugin");
 	window.fka_pageCount = 2;
 	window.fka_firstLoad = true;
+	window.fka_pincode = "560034";
 
 	$("#products").bind("DOMSubtreeModified", function() {
 		//First time products loading
@@ -28,9 +29,9 @@
 
 	//functions
 	function getProductSKUs(parent){
-		var skuList = [];
+		var skuList = {};
 		$("a.fk-product-thumb", $(parent)).each(function() {
-			skuList.push($(this).parent().parent().attr("data-pid"));
+			skuList[$(this).parent().parent().attr("data-pid")]="http://www.flipkart.com" + $(this).attr("href")+"&pincode="+window.fka_pincode;
 			console.log($(this).parent().parent().attr("data-pid"));
 		});
 		return skuList;
@@ -49,26 +50,22 @@
 		})
 		.done(function( resp ) {
 			console.log( "Sample of data:--------------------------------------" + resp );
+			$.each( resp, function( key, value ) {
+				var elm = $( "div[data-pid="+key+"]");
+				if(value.advantage){
+					elm.addClass("has-fka");
+				}
+				if(value.ndd){
+					elm.addClass("has-ndd");
+				}
+				if(value.sdd){
+					elm.addClass("has-sdd");
+				}
+					
+			});
 		});
 
-		
-		//put data from server in dom
-		var serverData = {
-			"ACCDZRSEYPFHAT76":true,
-			"ACCEFUJPZGK7PYM4":false,
-			"ACCEFYRV9RRFMJGR":true,
-			"ACCDKQYSSSFYSGFU":false,
-			"ACCDH45YMYXGESYU":false,
-			"ACCE38HCFCAMZZJJ":true,
-			"ACCDTSDEEYGTSBVG":true,
-			"ACCEFYRVQTKXPUFY":false,
-			"ACCDFE7NE2PNQAPR":true,
-			"ACCCWPEDXMGPS3CA":true
-		};
-
-		$.each( serverData, function( key, value ) {
-			$( "div[data-pid="+key+"]").addClass("has-fka");	
-		});
+			
 		
 	}
 

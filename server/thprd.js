@@ -19,24 +19,28 @@ var server = http.createServer(function (req, response) {
     var responseData = {};
     var responseCount = 1;
     for (var product in products) {
-        var callUrl = "http://www.flipkart.com/search?q=" + products[product];
-        request(callUrl, (function(product){ 
+        var callUrl = products[product];
+        request({
+            method: "GET",
+            url: callUrl,
+            headers: { "User-Agent": "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.111 Safari/537.36" }
+        }, (function(product){ 
             return function(err, resp, body) {
                 if (err)
                     throw err;
                 var $ = cheerio.load(body);
-                responseData[products[product]] = {};
+                responseData[product] = {};
                 if($(".express.sdd").length > 0) {
-                    responseData[products[product]].sdd = true;
+                    responseData[product].sdd = true;
                 }
                 if($(".express.ndd").length > 0) {
-                    responseData[products[product]].ndd = true;
+                    responseData[product].ndd = true;
                 }
                 if($(".fk-advantage").length > 0) {
-                    responseData[products[product]].advantage = true;
+                    responseData[product].advantage = true;
                 }
                 else{
-                    responseData[products[product]].advantage = false;    
+                    responseData[product].advantage = false;    
                 }
                 if(responseCount < Object.keys(products).length) {
                     console.log(Object.keys(products).length + " | " + responseCount);
