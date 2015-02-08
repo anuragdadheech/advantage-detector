@@ -13,39 +13,33 @@ var server = http.createServer(function (req, response) {
 
     var theUrl = url.parse( req.url );
     var queryObj = queryString.parse( theUrl.query );
-    var obj = JSON.parse( queryObj.jsonData );
-    console.log( JSON.stringify(obj) );
+    var products = JSON.parse( queryObj.jsonData );
+    console.log( JSON.stringify(products) );
 
-
-
-
-    var pools = {
-        "Aloha": 3,
-        "Beaverton": 15,
-        "Conestoga": 12,
-        "Harman": 11,
-        "Raleigh": 6,
-        "Somerset": 22,
-        "Sunset": 5,
-        "Tualatin Hills": 2
-    };
-    var days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
     var responseData = {};
     var responseCount = 1;
-    for (var pool in pools) {
-        var callUrl = "http://www.thprd.org/schedules/schedule.cfm?cs_id=" + pools[pool];
-        request(callUrl, (function(pool){ 
+    for (var product in products) {
+        var callUrl = "http://www.flipkart.com/search?q=" + products[product];
+        request(callUrl, (function(product){ 
             return function(err, resp, body) {
                 if (err)
                     throw err;
                 var $ = cheerio.load(body);
-                $("#calendar .days td").each(function(day) {
-                    $(this).find("div").each(function() {
-                        responseData[pool] = pool + "," + days[day] + "," + $(this).text().trim().replace(/\s\s+/g, ",");
-                    });
-                });
-                if(responseCount < Object.keys(pools).length) {
-                    console.log(Object.keys(pools).length + " | " + responseCount);
+                responseData[products[product]] = {};
+                if($(".express.sdd").length > 0) {
+                    responseData[products[product]].sdd = true;
+                }
+                if($(".express.ndd").length > 0) {
+                    responseData[products[product]].ndd = true;
+                }
+                if($(".fk-advantage").length > 0) {
+                    responseData[products[product]].advantage = true;
+                }
+                else{
+                    responseData[products[product]].advantage = false;    
+                }
+                if(responseCount < Object.keys(products).length) {
+                    console.log(Object.keys(products).length + " | " + responseCount);
                     responseCount++;
                 }else {
                     console.log(JSON.stringify(responseData));
@@ -54,7 +48,7 @@ var server = http.createServer(function (req, response) {
                 }
             };
 
-        })(pool));
+        })(product));
     }
 });
 server.listen(8000);
