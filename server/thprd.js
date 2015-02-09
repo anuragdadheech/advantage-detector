@@ -31,7 +31,7 @@ var server = http.createServer(function (req, response) {
                 var $ = cheerio.load(body);
                 responseData[product] = {};
                 if($(".express.sdd").length > 0) {
-                    responseData[product].sdd = true;
+                    responseData[product].ndd = true;
                 }
                 if($(".express.ndd").length > 0) {
                     responseData[product].ndd = true;
