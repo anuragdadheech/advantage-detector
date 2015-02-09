@@ -5,6 +5,9 @@
 	window.fka_pageCount = 2;
 	window.fka_firstLoad = true;
 	window.fka_pincode = "560034";
+	window.fka_server_url = "http://127.0.0.1:8080";
+	// window.fka_server_url = "http://fkfirst-nlmm01.rhcloud.com";
+	var fka_affiliate_id = "anuragdad";
 
 	$("#products").bind("DOMSubtreeModified", function() {
 		//First time products loading
@@ -31,6 +34,8 @@
 	function getProductSKUs(parent){
 		var skuList = {};
 		$("a.fk-product-thumb", $(parent)).each(function() {
+			var link = $(this).attr("href");
+			generate_affiliate_links(this, link);
 			skuList[$(this).parent().parent().attr("data-pid")]="http://www.flipkart.com" + $(this).attr("href")+"&pincode="+window.fka_pincode;
 			console.log($(this).parent().parent().attr("data-pid"));
 		});
@@ -42,7 +47,7 @@
 		console.log(data);	
 		$.ajax({
 			type: "GET",
-		    url: "http://127.0.0.1:8000",
+		    url: window.fka_server_url,
 		    dataType: "json",
 		    data: {
 		    	jsonData: JSON.stringify(data)
@@ -67,6 +72,11 @@
 
 			
 		
+	}
+
+	function generate_affiliate_links(elm, link){
+		$(elm).attr("href", link+"&affid="+fka_affiliate_id);
+		$(".fk-display-block", $(elm).parent().parent()).attr("href", link+"&affid="+fka_affiliate_id);
 	}
 
 }());
