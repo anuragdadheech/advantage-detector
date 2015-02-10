@@ -34,7 +34,7 @@ var FKAapp = function(){
      */
     self.terminator = function(sig){
         if (typeof sig === "string") {
-           console.log("%s: Received %s - terminating sample app ...",
+           console.log("%s: Received %s - terminating app ...",
                        Date(Date.now()), sig);
            process.exit(1);
         }
@@ -78,47 +78,43 @@ var FKAapp = function(){
                 response.end();
                 return false;
             }
-            var products = JSON.parse( queryObj.jsonData );
-            console.log( JSON.stringify(products) );
+            var sku = JSON.parse( queryObj.jsonData );
+            // console.log( JSON.stringify(products) );
 
-            var responseData = {};
-            var responseCount = 1;
-            for (var product in products) {
-                var callUrl = products[product];
-                request({
-                    method: "GET",
-                    url: callUrl,
-                    headers: { "User-Agent": "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.111 Safari/537.36" }
-                }, (function(product){ 
-                    return function(err, resp, body) {
-                        if (err)
-                            throw err;
-                        var $ = cheerio.load(body);
-                        responseData[product] = {};
-                        if($(".express.sdd").length > 0) {
-                            responseData[product].ndd = true;
-                        }
-                        if($(".premium").length > 0) {
-                            responseData[product].sdd = true;
-                        }
-                        if($(".fk-advantage").length > 0) {
-                            responseData[product].advantage = true;
-                        }
-                        else{
-                            responseData[product].advantage = false;    
-                        }
-                        if(responseCount < Object.keys(products).length) {
-                            console.log(Object.keys(products).length + " | " + responseCount);
-                            responseCount++;
-                        }else {
-                            console.log(JSON.stringify(responseData));
-                            response.write(JSON.stringify(responseData));
-                            response.end();
-                        }
+            // var responseData = {};
+            // var responseCount = 1;
+            var callUrl = sku.link;
+            request({
+                method: "GET",
+                url: callUrl,
+                headers: { "User-Agent": "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.111 Safari/537.36" }
+            }, (function(sku){ 
+                return function(err, resp, body) {
+                    if (err)
+                        throw err;
+                    var $ = cheerio.load(body);
+                    var responseData = {
+                        pid: sku.pid
                     };
+                    if($(".express.sdd").length > 0) {
+                        responseData.ndd = true;
+                    }
+                    if($(".premium").length > 0) {
+                        responseData.sdd = true;
+                    }
+                    if($(".fk-advantage").length > 0) {
+                        responseData.advantage = true;
+                    }
+                    else{
+                        responseData.advantage = false;    
+                    }
+                    console.log(JSON.stringify(responseData));
+                    response.write(JSON.stringify(responseData));
+                    response.end();
+                    
+                };
 
-                })(product));
-            }
+            })(sku));
         });
     };
 

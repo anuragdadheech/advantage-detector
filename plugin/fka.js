@@ -13,8 +13,8 @@
 		//First time products loading
 		if($("#products").length && $("a.fk-product-thumb").length && window.fka_firstLoad) {
 			window.fka_firstLoad = false;
-			var firstData = getProductSKUs($("#products"));
-			updateDOMWithAdvantage(firstData);
+			getProductSKUs($("#products"));
+			// updateDOMWithAdvantage(firstData);
 			console.log("Flipkart Advantage plugin | First page updated");
 		}
 
@@ -23,8 +23,8 @@
 		if($("#page-"+window.fka_pageCount).length) {
 			console.log("Flipkart Advantage plugin | Page updated | Added page "+window.fka_pageCount);
 			window.fka_pageCount++;	
-			var pageData = getProductSKUs($("#page-"+(window.fka_pageCount - 1)));
-			updateDOMWithAdvantage(pageData);
+			getProductSKUs($("#page-"+(window.fka_pageCount - 1)));
+			// updateDOMWithAdvantage(pageData);
 		}
 
 		
@@ -32,19 +32,24 @@
 
 	//functions
 	function getProductSKUs(parent){
-		var skuList = {};
+		
 		$("a.fk-product-thumb", $(parent)).each(function() {
+
 			var link = $(this).attr("href");
 			generate_affiliate_links(this, link);
-			skuList[$(this).parent().parent().attr("data-pid")]="http://www.flipkart.com" + $(this).attr("href")+"&pincode="+window.fka_pincode;
+			var sku = {
+				pid: $(this).parent().parent().attr("data-pid"),
+				link: "http://www.flipkart.com" + $(this).attr("href")+"&pincode="+window.fka_pincode
+			};
 			console.log($(this).parent().parent().attr("data-pid"));
+			updateDOMWithAdvantage(sku);
 		});
-		return skuList;
+		// return skuList;
 	}
 
 	function updateDOMWithAdvantage(data){
 		//TODO: send data to server and get boolean key value pairs for advantage
-		console.log(data);	
+		console.log("Going data---------------"+JSON.stringify(data));	
 		$.ajax({
 			type: "GET",
 		    url: window.fka_server_url,
@@ -54,20 +59,18 @@
 		    }
 		})
 		.done(function( resp ) {
-			console.log( "Sample of data:--------------------------------------" + resp );
-			$.each( resp, function( key, value ) {
-				var elm = $( "div[data-pid="+key+"]");
-				if(value.advantage){
-					elm.addClass("has-fka");
-				}
-				if(value.ndd){
-					elm.addClass("has-ndd");
-				}
-				if(value.sdd){
-					elm.addClass("has-sdd");
-				}
-					
-			});
+			console.log( "returning data+++++++++++++++++" + JSON.stringify(resp) );
+			var elm = $( "div[data-pid="+resp.pid+"]");
+			if(resp.advantage){
+				elm.addClass("has-fka");
+			}
+			if(resp.ndd){
+				elm.addClass("has-ndd");
+			}
+			if(resp.sdd){
+				elm.addClass("has-sdd");
+			}
+				
 		});
 
 			
