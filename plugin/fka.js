@@ -5,11 +5,11 @@
 	window.fka_pageCount = 2;
 	window.fka_firstLoad = true;
 	window.fka_pincode = "560034";
-	window.fka_server_url = "http://127.0.0.1:8080";
-	// window.fka_server_url = "http://fkfirst-nlmm01.rhcloud.com";
+	// window.fka_server_url = "http://127.0.0.1:8080";
+	window.fka_server_url = "http://fkfirst-nlmm01.rhcloud.com";
 	var fka_affiliate_id = "anuragdad";
 
-	$("#products").bind("DOMSubtreeModified", function() {
+	$(document).ready(function(){
 		//First time products loading
 		if($("#products").length && $("a.fk-product-thumb").length && window.fka_firstLoad) {
 			window.fka_firstLoad = false;
@@ -17,17 +17,27 @@
 			// updateDOMWithAdvantage(firstData);
 			console.log("Flipkart Advantage plugin | First page updated");
 		}
+		window.fka_filters = $(".filter-group").length;
+	});
 
+	// $("#browse").bind("DOMSubtreeModified", function() {
+	// 	//Taking into account filters
+	// 	console.log("Filter initial: "+window.fka_filters+" Filter final: "+$("#selectedFilters").length);
+	// 	if($(".filter-group").length && ($(".filter-group").length != window.fka_filters)) {
+	// 		window.fka_filters = $(".filter-group").length;
+	// 		console.log("Flipkart Advantage plugin | Filters Updated | ");
+	// 		getProductSKUs($("#products"));
+	// 	}		
+	// });
 
+	$("#products").bind("DOMSubtreeModified", function() {
 		//Taking into account dynamic loading
 		if($("#page-"+window.fka_pageCount).length) {
 			console.log("Flipkart Advantage plugin | Page updated | Added page "+window.fka_pageCount);
 			window.fka_pageCount++;	
 			getProductSKUs($("#page-"+(window.fka_pageCount - 1)));
 			// updateDOMWithAdvantage(pageData);
-		}
-
-		
+		}		
 	});
 
 	//functions
