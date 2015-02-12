@@ -13,8 +13,8 @@
 		//First time products loading
 		if($("#products").length && $("a.fk-product-thumb").length && window.fka_firstLoad) {
 			window.fka_firstLoad = false;
-			getProductSKUs($("#products"));
-			// updateDOMWithAdvantage(firstData);
+			var firstData = getProductSKUs($("#products"));
+			updateDOMWithAdvantage(firstData);
 			console.log("Flipkart Advantage plugin | First page updated");
 		}
 		window.fka_filters = $(".filter-group").length;
@@ -35,14 +35,14 @@
 		if($("#page-"+window.fka_pageCount).length) {
 			console.log("Flipkart Advantage plugin | Page updated | Added page "+window.fka_pageCount);
 			window.fka_pageCount++;	
-			getProductSKUs($("#page-"+(window.fka_pageCount - 1)));
-			// updateDOMWithAdvantage(pageData);
+			var pageData = getProductSKUs($("#page-"+(window.fka_pageCount - 1)));
+			updateDOMWithAdvantage(pageData);
 		}		
 	});
 
 	//functions
 	function getProductSKUs(parent){
-		
+		var skuList = [];		
 		$("a.fk-product-thumb", $(parent)).each(function() {
 
 			var link = $(this).attr("href");
@@ -51,10 +51,11 @@
 				pid: $(this).parent().parent().attr("data-pid"),
 				link: "http://www.flipkart.com" + $(this).attr("href")+"&pincode="+window.fka_pincode
 			};
-			console.log($(this).parent().parent().attr("data-pid"));
-			updateDOMWithAdvantage(sku);
+			skuList.push(sku);
+			// console.log($(this).parent().parent().attr("data-pid"));
+			// updateDOMWithAdvantage(sku);
 		});
-		// return skuList;
+		return skuList;
 	}
 
 	function updateDOMWithAdvantage(data){
