@@ -16,6 +16,7 @@ var FKAapp = function(){
      */
     self.setupVariables = function() {
         //  Set the environment variables we need.
+        http.globalAgent.maxSockets = 50;
         self.ipaddress = process.env.OPENSHIFT_NODEJS_IP;
         self.port      = process.env.OPENSHIFT_NODEJS_PORT || 8080;
 
@@ -84,12 +85,15 @@ var FKAapp = function(){
             // var responseData = {};
             // var responseCount = 1;
             var callUrl = sku.link;
+            console.log("++++++++++++++"+sku.pid + " time: "+new Date());
             request({
                 method: "GET",
                 url: callUrl,
                 headers: { "User-Agent": "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.111 Safari/537.36" }
             }, (function(sku){ 
                 return function(err, resp, body) {
+                    console.log("--------++++++++++++++-----------"+sku.pid + " time: "+new Date());
+
                     if (err)
                         throw err;
                     var $ = cheerio.load(body);
@@ -108,7 +112,7 @@ var FKAapp = function(){
                     else{
                         responseData.advantage = false;    
                     }
-                    console.log(JSON.stringify(responseData));
+                    console.log(" time: "+new Date() + JSON.stringify(responseData));
                     response.write(JSON.stringify(responseData));
                     response.end();
                     

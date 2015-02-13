@@ -5,8 +5,8 @@
 	window.fka_pageCount = 2;
 	window.fka_firstLoad = true;
 	window.fka_pincode = "560034";
-	// window.fka_server_url = "http://127.0.0.1:8080";
-	window.fka_server_url = "http://fkfirst-nlmm01.rhcloud.com";
+	window.fka_server_url = "http://127.0.0.1:8080";
+	// window.fka_server_url = "http://fkfirst-nlmm01.rhcloud.com";
 	var fka_affiliate_id = "anuragdad";
 
 	$(document).ready(function(){
@@ -54,10 +54,12 @@
 			console.log($(this).parent().parent().attr("data-pid"));
 			updateDOMWithAdvantage(sku);
 		});
+		// $("#products").hide();
 		// return skuList;
 	}
 
 	function updateDOMWithAdvantage(data){
+		// var count=0;
 		//TODO: send data to server and get boolean key value pairs for advantage
 		console.log("Going data---------------"+JSON.stringify(data));	
 		$.ajax({
@@ -80,6 +82,10 @@
 			if(resp.sdd){
 				elm.addClass("has-sdd");
 			}
+			// count++;
+			// if(count==19){
+			// 	$("#products").show();
+			// }
 				
 		});
 
