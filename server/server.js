@@ -54,7 +54,7 @@ var FKAapp = function(){
         // Removed 'SIGPIPE' from the list - bugz 852598.
         ["SIGHUP", "SIGINT", "SIGQUIT", "SIGILL", "SIGTRAP", "SIGABRT",
          "SIGBUS", "SIGFPE", "SIGUSR1", "SIGSEGV", "SIGUSR2", "SIGTERM"
-        ].forEach(function(element, index, array) {
+        ].forEach(function(element) {
             process.on(element, function() { self.terminator(element); });
         });
     };
@@ -80,46 +80,89 @@ var FKAapp = function(){
                 response.end();
                 return false;
             }
-            var sku = JSON.parse( queryObj.jsonData );
+            var products = JSON.parse( queryObj.jsonData );
             // console.log( JSON.stringify(products) );
 
             // var responseData = {};
-            // var responseCount = 1;
-            var callUrl = sku.link;
-            console.log("++++++++++++++"+sku.pid + " time: "+new Date());
-            request({
-                method: "GET",
-                url: callUrl,
-                headers: { "User-Agent": "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.111 Safari/537.36" }
-            }, (function(sku){ 
-                return function(err, resp, body) {
-                    console.log("--------++++++++++++++-----------"+sku.pid + " time: "+new Date());
+            var responseCount = 1;
+            // var callUrl = sku.link;
+            // console.log("++++++++++++++"+sku.pid + " time: "+new Date());
+            // request({
+            //     method: "GET",
+            //     url: callUrl,
+            //     headers: { "User-Agent": "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.111 Safari/537.36" }
+            // }, (function(sku){ 
+            //     return function(err, resp, body) {
+            //         console.log("--------++++++++++++++-----------"+sku.pid + " time: "+new Date());
 
-                    if (err)
-                        throw err;
-                    var $ = cheerio.load(body);
-                    var responseData = {
-                        pid: sku.pid
-                    };
-                    if($(".express.sdd").length > 0) {
-                        responseData.ndd = true;
-                    }
-                    if($(".premium").length > 0) {
-                        responseData.sdd = true;
-                    }
-                    if($(".fk-advantage").length > 0) {
-                        responseData.advantage = true;
-                    }
-                    else{
-                        responseData.advantage = false;    
-                    }
-                    console.log(" time: "+new Date() + JSON.stringify(responseData));
-                    response.write(JSON.stringify(responseData));
-                    response.end();
+            //         if (err)
+            //             throw err;
+            //         var $ = cheerio.load(body);
+            //         var responseData = {
+            //             pid: sku.pid
+            //         };
+            //         if($(".express.sdd").length > 0) {
+            //             responseData.ndd = true;
+            //         }
+            //         if($(".premium").length > 0) {
+            //             responseData.sdd = true;
+            //         }
+            //         if($(".fk-advantage").length > 0) {
+            //             responseData.advantage = true;
+            //         }
+            //         else{
+            //             responseData.advantage = false;    
+            //         }
+            //         console.log(" time: "+new Date() + JSON.stringify(responseData));
+            //         response.write(JSON.stringify(responseData));
+            //         response.end();
                     
-                };
+            //     };
 
-            })(sku));
+            // })(sku));
+
+            for (var product in products) {
+                var callUrl = products[product].link;
+                console.log("URL: "+ callUrl + "\n");
+                request({
+                    method: "GET",
+                    url: callUrl,
+                    headers: { "User-Agent": "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.111 Safari/537.36" }
+                }, (function(product){ 
+                    return function(err, resp, body) {
+                        if (err)
+                            throw err;
+                        var $ = cheerio.load(body);
+                        var responseData = {};
+                        responseData[product] = {};
+                        if($(".express.sdd").length > 0) {
+                            responseData[product].ndd = true;
+                        }
+                        if($(".premium").length > 0) {
+                            responseData[product].sdd = true;
+                        }
+                        if($(".fk-advantage").length > 0) {
+                            responseData[product].advantage = true;
+                        }
+                        else{
+                            responseData[product].advantage = false;    
+                        }
+                        console.log(JSON.stringify(responseData));
+                        
+                        if(responseCount < Object.keys(products).length) {
+                            console.log("NON END:  "+JSON.stringify(responseData));
+                            response.write(JSON.stringify(responseData));
+                            responseCount++;
+                        }else {
+                            console.log("THE END:  "+JSON.stringify(responseData));
+                            response.write(JSON.stringify(responseData));
+                            response.end();
+                        }
+                        
+                    };
+
+                })(product));
+            }
         });
     };
 

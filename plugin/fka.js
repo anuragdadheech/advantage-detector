@@ -72,16 +72,16 @@
 		})
 		.done(function( resp ) {
 			console.log( "returning data+++++++++++++++++" + JSON.stringify(resp) );
-			var elm = $( "div[data-pid="+resp.pid+"]");
-			if(resp.advantage){
-				elm.addClass("has-fka");
-			}
-			if(resp.ndd){
-				elm.addClass("has-ndd");
-			}
-			if(resp.sdd){
-				elm.addClass("has-sdd");
-			}
+			// var elm = $( "div[data-pid="+resp.pid+"]");
+			// if(resp.advantage){
+			// 	elm.addClass("has-fka");
+			// }
+			// if(resp.ndd){
+			// 	elm.addClass("has-ndd");
+			// }
+			// if(resp.sdd){
+			// 	elm.addClass("has-sdd");
+			// }
 			// count++;
 			// if(count==19){
 			// 	$("#products").show();
