@@ -18,7 +18,7 @@ var FKAapp = function(){
         //  Set the environment variables we need.
         http.globalAgent.maxSockets = 50;
         self.ipaddress = process.env.OPENSHIFT_NODEJS_IP;
-        self.port      = process.env.OPENSHIFT_NODEJS_PORT || 8080;
+        self.port      = process.env.OPENSHIFT_NODEJS_PORT || 80;
         http.globalAgent.maxSockets = 50;
 
         if (typeof self.ipaddress === "undefined") {
@@ -69,9 +69,9 @@ var FKAapp = function(){
      */
     self.initializeServer = function() {
         self.server = http.createServer(function (req, response) {
+            console.log("request received at: "+new Date());
             response.setHeader("Access-Control-Allow-Origin", "*");
             response.writeHead(200, {"Content-Type": "application/json"});
-            console.log("request received");
 
             var theUrl = url.parse( req.url );
             var queryObj = queryString.parse( theUrl.query );
@@ -83,7 +83,7 @@ var FKAapp = function(){
             var products = JSON.parse( queryObj.jsonData );
             // console.log( JSON.stringify(products) );
 
-            // var responseData = {};
+            var responseData = {};
             var responseCount = 1;
             // var callUrl = sku.link;
             // console.log("++++++++++++++"+sku.pid + " time: "+new Date());
@@ -123,7 +123,6 @@ var FKAapp = function(){
 
             for (var product in products) {
                 var callUrl = products[product].link;
-                console.log("URL: "+ callUrl + "\n");
                 request({
                     method: "GET",
                     url: callUrl,
@@ -133,28 +132,26 @@ var FKAapp = function(){
                         if (err)
                             throw err;
                         var $ = cheerio.load(body);
-                        var responseData = {};
-                        responseData[product] = {};
+                        var sku = products[product].pid;
+                        responseData[sku] = {};
                         if($(".express.sdd").length > 0) {
-                            responseData[product].ndd = true;
+                            responseData[sku].ndd = true;
                         }
                         if($(".premium").length > 0) {
-                            responseData[product].sdd = true;
+                            responseData[sku].sdd = true;
                         }
                         if($(".fk-advantage").length > 0) {
-                            responseData[product].advantage = true;
+                            responseData[sku].advantage = true;
                         }
                         else{
-                            responseData[product].advantage = false;    
+                            responseData[sku].advantage = false;    
                         }
-                        console.log(JSON.stringify(responseData));
+                        // console.log(JSON.stringify(responseData));
                         
                         if(responseCount < Object.keys(products).length) {
-                            console.log("NON END:  "+JSON.stringify(responseData));
-                            response.write(JSON.stringify(responseData));
                             responseCount++;
                         }else {
-                            console.log("THE END:  "+JSON.stringify(responseData));
+                            console.log("request finished at: "+new Date());
                             response.write(JSON.stringify(responseData));
                             response.end();
                         }
