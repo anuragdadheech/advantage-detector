@@ -9,16 +9,12 @@
 	window.fka_server_url = "http://fkfirst-nlmm01.rhcloud.com";
 	var fka_affiliate_id = "anuragdad";
 
-	// $(document).ready(function(){
-		//First time products loading
-		// if($("#products").length && $("a.fk-product-thumb").length && window.fka_firstLoad) {
-			window.fka_firstLoad = false;
-			var firstData = getProductSKUs($("#products"));
-			updateDOMWithAdvantage(firstData);
-			console.log("Flipkart Advantage plugin | First page updated");
-		// }
-		window.fka_filters = $(".filter-group").length;
-	// });
+	//First page load
+	window.fka_firstLoad = false;
+	var firstData = getProductSKUs($("#products"));
+	updateDOMWithAdvantage(firstData);
+	console.log("Flipkart Advantage plugin | First page updated");
+	window.fka_filters = $(".filter-group").length;
 
 	// $("#browse").bind("DOMSubtreeModified", function() {
 	// 	//Taking into account filters
@@ -27,7 +23,7 @@
 	// 		window.fka_filters = $(".filter-group").length;
 	// 		console.log("Flipkart Advantage plugin | Filters Updated | ");
 	// 		getProductSKUs($("#products"));
-	// 	}		
+	// 	}
 	// });
 
 	$("#products").bind("DOMSubtreeModified", function() {
