@@ -173,9 +173,9 @@ header
 	margin-bottom: 10px;
 }
 
-#help-container {
+.fka-popup-item {
 	font-size: 1.1em;
-	text-align: left;
+	text-align: left !important;
 	border-top: 1px dashed;
 	cursor: pointer;
 }
@@ -185,4 +185,9 @@ header
 }
 .help-data {
 	display: none;
+}
+.pincode-edit {
+    width: 100px;
+    float: right;
+    padding-left: 5px;
 }
