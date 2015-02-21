@@ -10,3 +10,17 @@ $("#help-container").click(function(){
 	}
 
 });
+
+$("#fka-pincode-input-container").click(function(){
+	$("#fka-pincode-input").prop("disabled", false);
+	$("#fka-pincode-input").focus();
+
+});
+
+$("#fka-pincode-input").bind("enterKey",function(){
+   $("#fka-pincode-input").blur();
+});
+
+$("#fka-pincode-input").blur(function(){
+	$(this).prop("disabled", true);
+});
