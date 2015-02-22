@@ -17,8 +17,11 @@ $("#fka-pincode-input-container").click(function(){
 
 });
 
-$("#fka-pincode-input").bind("enterKey",function(){
-   $("#fka-pincode-input").blur();
+$("#fka-pincode-input").keyup(function(e){
+    if(e.keyCode == 13)
+    {
+        $("#fka-pincode-input").blur();
+    }
 });
 
 $("#fka-pincode-input").blur(function(){
