@@ -4,23 +4,24 @@
 	console.log("FK Advantage plugin");
 	window.fka_pageCount = 2;
 	window.fka_firstLoad = true;
-	window.fka_pincode = "560034";
 	// window.fka_server_url = "http://127.0.0.1:8080";
 	window.fka_server_url = "http://fkfirst-nlmm01.rhcloud.com";
 	var fka_affiliate_id = "anuragdad";
 
 	chrome.storage.sync.get({
-	state: true
+	state: true,
+	pincode: "560034"
 	}, function(items) {
 		if(items.state === true) {
-			setUpAdvantageDetector();
+			console.log("FKA ADVANTAGE | Pincode | "+items.pincode);	
+			setUpAdvantageDetector(items.pincode);
         }
 	});
 
-	function setUpAdvantageDetector(){
+	function setUpAdvantageDetector(pincode){
 		//First page load
 		window.fka_firstLoad = false;
-		var firstData = getProductSKUs($("#products"));
+		var firstData = getProductSKUs($("#products"), pincode);
 		updateDOMWithAdvantage(firstData);
 		console.log("Flipkart Advantage plugin | First page updated");
 		window.fka_filters = $(".filter-group").length;
@@ -41,7 +42,7 @@
 			if($("#page-"+window.fka_pageCount).length) {
 				console.log("Flipkart Advantage plugin | Page updated | Added page "+window.fka_pageCount);
 				window.fka_pageCount++;	
-				var pageData = getProductSKUs($("#page-"+(window.fka_pageCount - 1)));
+				var pageData = getProductSKUs($("#page-"+(window.fka_pageCount - 1)), pincode);
 				updateDOMWithAdvantage(pageData);
 			}		
 		});
@@ -49,15 +50,16 @@
 	}
 		
 	//functions
-	function getProductSKUs(parent){
-		var skuList = [];		
+	function getProductSKUs(parent, pincode){
+		var skuList = [];	
+
 		$("a.fk-product-thumb", $(parent)).each(function() {
 
 			var link = $(this).attr("href");
 			generate_affiliate_links(this, link);
 			var sku = {
 				pid: $(this).parent().parent().attr("data-pid"),
-				link: "http://www.flipkart.com" + $(this).attr("href")+"&pincode="+window.fka_pincode
+				link: "http://www.flipkart.com" + $(this).attr("href")+"&pincode="+pincode
 			};
 			skuList.push(sku);
 			// console.log($(this).parent().parent().attr("data-pid"));

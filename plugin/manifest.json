@@ -8,7 +8,7 @@
     "default_popup": "popup.html"
   },
   "content_scripts": [ {
-      "js": [ "thirdParty/jquery.min.js", "fka.js"],
+      "js": [ "thirdParty/jquery.min.js", "fka.js", "scripts/options.js"],
       "matches": [ "*://*.flipkart.com/*" ],
       "css" : ["css/fka.css"]
    }],

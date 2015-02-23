@@ -1,12 +1,14 @@
 "use strict";
 /*global chrome*/ 
 // Saves options to chrome.storage
-var state;
+var state, pin;
 function save_options() {
 
 	state = document.getElementById("state").checked;
-		chrome.storage.sync.set({
-		state: state
+	pin = document.getElementById("fka-pincode-input").value;
+	chrome.storage.sync.set({
+		state: state,
+		picode: pin
 	}, function() {
 		// Update status to let user know options were saved.
 		var status = document.getElementById("button-state");
@@ -24,7 +26,8 @@ function save_options() {
 function restore_options() {
   // Use default value color = "red" and likesColor = true.
 	chrome.storage.sync.get({
-	state: true
+	state: true,
+	pincode: "560034"
 	}, function(items) {
 		document.getElementById("state").checked = items.state;
 		var status = document.getElementById("button-state");
@@ -39,5 +42,8 @@ function restore_options() {
 
 document.addEventListener("DOMContentLoaded", restore_options);
 var switchButton = document.getElementsByClassName("switch")[0];
+var pincodeInput = document.getElementById("fka-pincode-input");
 switchButton.addEventListener("click",
+    save_options);
+pincodeInput.addEventListener("change",
     save_options);
