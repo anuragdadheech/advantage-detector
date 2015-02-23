@@ -8,7 +8,7 @@ function save_options() {
 	pin = document.getElementById("fka-pincode-input").value;
 	chrome.storage.sync.set({
 		state: state,
-		picode: pin
+		pincode: pin
 	}, function() {
 		// Update status to let user know options were saved.
 		var status = document.getElementById("button-state");
@@ -30,6 +30,7 @@ function restore_options() {
 	pincode: "560034"
 	}, function(items) {
 		document.getElementById("state").checked = items.state;
+		document.getElementById("fka-pincode-input").value = items.pincode;
 		var status = document.getElementById("button-state");
 		if (items.state === true) {
 			status.textContent = "Enabled";
