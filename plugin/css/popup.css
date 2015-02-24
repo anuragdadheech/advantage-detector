@@ -45,7 +45,7 @@ header
 	top: 0px;
 	width: 80px;
 	height: 80px;
-	margin: 10px auto;
+	margin: 0px auto;
 	background-image: url(../images/logo.png);
 	background-size: 100%;
 }
@@ -185,6 +185,9 @@ header
 }
 .help-data {
 	display: none;
+}
+.help-data ul li {
+    text-align: left;
 }
 .pincode-edit {
     width: 100px;
