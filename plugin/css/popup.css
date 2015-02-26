@@ -185,6 +185,7 @@ header
 }
 .help-data {
 	display: none;
+    margin-top: -15px;
 }
 .help-data ul li {
     text-align: left;
