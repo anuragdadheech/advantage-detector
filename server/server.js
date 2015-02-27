@@ -146,6 +146,9 @@ var FKAapp = function(){
                         else{
                             responseData[sku].advantage = false;    
                         }
+                        if($(".not-serviceable").length>0){
+                            responseData[sku].service = false;    
+                        }
                         // console.log(JSON.stringify(responseData));
                         
                         if(responseCount < Object.keys(products).length) {
