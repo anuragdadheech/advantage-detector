@@ -6,7 +6,6 @@
 	window.fka_firstLoad = true;
 	// window.fka_server_url = "http://127.0.0.1:8080";
 	window.fka_server_url = "http://fkfirst-nlmm01.rhcloud.com";
-	var fka_affiliate_id = "anuragdad";
 
 	chrome.storage.sync.get({
 	state: true,
@@ -56,21 +55,18 @@
 		$("a.fk-product-thumb", $(parent)).each(function() {
 
 			var link = $(this).attr("href");
-			generate_affiliate_links(this, link);
+			//TODO: add code here
 			var sku = {
 				pid: $(this).parent().parent().attr("data-pid"),
 				link: "http://www.flipkart.com" + $(this).attr("href")+"&pincode="+pincode
 			};
 			skuList.push(sku);
-			// console.log($(this).parent().parent().attr("data-pid"));
-			// updateDOMWithAdvantage(sku);
 		});
 		return skuList;
 	}
 
 	function updateDOMWithAdvantage(data){
-		// var count=0;
-		//TODO: send data to server and get boolean key value pairs for advantage
+		//send data to server and get boolean key value pairs for advantage
 		console.log("Going data---------------"+JSON.stringify(data));	
 		$.ajax({
 			type: "GET",
@@ -82,20 +78,6 @@
 		})
 		.done(function( resp ) {
 			console.log( "returning data+++++++++++++++++" + JSON.stringify(resp) );
-			// var elm = $( "div[data-pid="+resp.pid+"]");
-			// if(resp.advantage){
-			// 	elm.addClass("has-fka");
-			// }
-			// if(resp.ndd){
-			// 	elm.addClass("has-ndd");
-			// }
-			// if(resp.sdd){
-			// 	elm.addClass("has-sdd");
-			// }
-			// count++;
-			// if(count==19){
-			// 	$("#products").show();
-			// }
 			$.each( resp, function( key, value ) {
 				var elm = $( "div[data-pid="+key+"]");
 				if(!value.service){
@@ -122,10 +104,6 @@
 		
 	}
 
-	function generate_affiliate_links(elm, link){
-		$(elm).attr("href", link+"&affid="+fka_affiliate_id);
-		$(".fk-display-block", $(elm).parent().parent()).attr("href", link+"&affid="+fka_affiliate_id);
-	}
 
 }());
 

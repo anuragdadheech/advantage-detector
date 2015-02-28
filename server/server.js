@@ -158,7 +158,7 @@ var FKAapp = function(){
                             responseCount++;
                         }else {
                             console.log("request finished at: "+new Date());
-                            response.write(JSON.stringify(responseData));
+                            // response.write(JSON.stringify(responseData));
                             response.end();
                         }
                         
