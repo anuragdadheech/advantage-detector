@@ -98,15 +98,21 @@
 			// }
 			$.each( resp, function( key, value ) {
 				var elm = $( "div[data-pid="+key+"]");
-				if(value.advantage){
-					elm.addClass("has-fka");
+				if(!value.service){
+					elm.addClass("no-service");
 				}
-				if(value.ndd){
-					elm.addClass("has-ndd");
+				else{
+					if(value.advantage){
+						elm.addClass("has-fka");
+					}
+					if(value.ndd){
+						elm.addClass("has-ndd");
+					}
+					if(value.sdd){
+						elm.addClass("has-sdd");
+					}
 				}
-				if(value.sdd){
-					elm.addClass("has-sdd");
-				}
+					
 					
 			});
 				
