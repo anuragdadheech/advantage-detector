@@ -4,6 +4,7 @@
 	console.log("FK Advantage plugin");
 	window.fka_pageCount = 2;
 	window.fka_firstLoad = true;
+	window.fka_numberOfProducts = parseInt($(".count.dont-show").html());
 	// window.fka_server_url = "http://127.0.0.1:8080";
 	window.fka_server_url = "http://fkfirst-nlmm01.rhcloud.com";
 
@@ -25,15 +26,17 @@
 		console.log("Flipkart Advantage plugin | First page updated");
 		window.fka_filters = $(".filter-group").length;
 
-		// $("#browse").bind("DOMSubtreeModified", function() {
-		// 	//Taking into account filters
-		// 	console.log("Filter initial: "+window.fka_filters+" Filter final: "+$("#selectedFilters").length);
-		// 	if($(".filter-group").length && ($(".filter-group").length != window.fka_filters)) {
-		// 		window.fka_filters = $(".filter-group").length;
-		// 		console.log("Flipkart Advantage plugin | Filters Updated | ");
-		// 		getProductSKUs($("#products"));
-		// 	}
-		// });
+		$("#browse").bind("DOMNodeInserted", function() {
+			//Taking into account filters
+			if($("#products").length){
+				console.log("FKA BROWSE SUBTREE MODIFIED" + new Date());
+			}
+			// if($(".filter-group").length && ($(".filter-group").length != window.fka_filters)) {
+			// 	window.fka_filters = $(".filter-group").length;
+			// 	console.log("Flipkart Advantage plugin | Filters Updated | ");
+			// 	getProductSKUs($("#products"));
+			// }
+		});
 
 
 		$("#products").bind("DOMSubtreeModified", function() {
