@@ -15,6 +15,15 @@
 		if(items.state === true) {
 			console.log("FKA ADVANTAGE | Pincode | "+items.pincode);	
 			setUpAdvantageDetector(items.pincode);
+			$("#browse").bind("DOMNodeInserted", function() {
+				//Taking into account filters
+				var productCount = parseInt($("#searchCount .items").html());
+				if(productCount != window.fka_numberOfProducts){
+					setUpAdvantageDetector(items.pincode);
+					console.log("FKA BROWSE SUBTREE MODIFIED" + new Date());
+					window.fka_numberOfProducts = productCount;
+				}
+			});
         }
 	});
 
@@ -26,16 +35,6 @@
 		console.log("Flipkart Advantage plugin | First page updated");
 		window.fka_filters = $(".filter-group").length;
 
-		$("#browse").bind("DOMNodeInserted", function() {
-			//Taking into account filters
-			var productCount = parseInt($("#searchCount .items").html());
-			if(productCount != window.fka_numberOfProducts){
-				console.log("FKA BROWSE SUBTREE MODIFIED" + new Date());
-				window.fka_numberOfProducts = productCount;
-			}
-		});
-
-
 		$("#products").bind("DOMSubtreeModified", function() {
 			//Taking into account dynamic loading
 			if($("#page-"+window.fka_pageCount).length) {
@@ -44,6 +43,14 @@
 				var pageData = getProductSKUs($("#page-"+(window.fka_pageCount - 1)), pincode);
 				updateDOMWithAdvantage(pageData);
 			}		
+		});
+
+		//sorting
+		$("select#sort-dropdown").change(function(){
+			$("#searchCount .items").html("5");
+		});
+		$("div#sort-dropdown").click(function(){
+			$("#searchCount .items").html("5");
 		});
 
 	}
