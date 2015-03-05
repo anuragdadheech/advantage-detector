@@ -18,3 +18,9 @@
 	background-position: right 2px top 2px;
 	background-image:url('chrome-extension://__MSG_@@extension_id__/images/no-service.png');	
 }
+.fka_loader {
+	float: left;
+	height: 30px;
+	width: 30px;
+	background-image:url('chrome-extension://__MSG_@@extension_id__/images/advantage.png');
+}
