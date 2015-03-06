@@ -20,7 +20,7 @@
 }
 .fka_loader {
 	float: left;
-	height: 30px;
-	width: 30px;
-	background-image:url('chrome-extension://__MSG_@@extension_id__/images/advantage.png');
+	height: 32px;
+	width: 32px;
+	background:url('chrome-extension://__MSG_@@extension_id__/images/loader.png');
 }
