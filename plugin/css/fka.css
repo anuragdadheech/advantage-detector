@@ -33,6 +33,7 @@
   text-align: center;
   font-size: 10px;
   float: left;
+  display: none;
 }
 
 .fka_spinner > div {

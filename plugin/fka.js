@@ -76,7 +76,8 @@
 
 	function updateDOMWithAdvantage(data){
 		//send data to server and get boolean key value pairs for advantage
-		console.log("Going data---------------"+JSON.stringify(data));	
+		console.log("Going data---------------"+JSON.stringify(data));
+		$(".fka_spinner").show();	
 		$.ajax({
 			type: "GET",
 		    url: window.fka_server_url,
@@ -106,6 +107,7 @@
 					
 					
 			});
+			$(".fka_spinner").hide();
 				
 		});
 
