@@ -7,7 +7,8 @@
 	window.fka_numberOfProducts = parseInt($("#searchCount .items").html());
 	// window.fka_server_url = "http://127.0.0.1:8080";
 	window.fka_server_url = "http://fkfirst-nlmm01.rhcloud.com";
-	$(".header-topbar").prepend("<span class='fka_loader'></span>");
+	// $(".header-topbar").prepend("<span class='fka_loader'></span>");
+	$(".header-topbar").prepend("<div class='fka_spinner'><div class='rect1'></div><div class='rect2'></div><div class='rect3'></div><div class='rect4'></div><div class='rect5'></div></div>");
 
 	chrome.storage.sync.get({
 	state: true,
