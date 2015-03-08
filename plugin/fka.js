@@ -14,7 +14,7 @@
 	state: true,
 	pincode: "560034"
 	}, function(items) {
-		if(items.state === true) {
+		if(items.state === true && $("#products").length) {
 			console.log("FKA ADVANTAGE | Pincode | "+items.pincode);	
 			setUpAdvantageDetector(items.pincode);
 			$("#browse").bind("DOMNodeInserted", function() {

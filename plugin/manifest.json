@@ -1,6 +1,6 @@
 {
   "name": "Flipkart Advantage detector",
-  "version": "0.1",
+  "version": "0.2",
   "description": "Detects products with flipkart Advantage",
   "manifest_version": 2,
   "browser_action": {
