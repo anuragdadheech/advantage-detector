@@ -180,6 +180,10 @@ header
 	cursor: pointer;
 }
 
+.fka-popup-item.no-pointer {
+    cursor: default;
+}
+
 #chevron {
 	float: right;
 }
