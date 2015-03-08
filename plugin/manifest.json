@@ -1,7 +1,7 @@
 {
   "name": "Flipkart Advantage detector",
-  "version": "0.2",
-  "description": "Detects products with flipkart Advantage",
+  "version": "0.4",
+  "description": "Detects products deliverable at selected pincode, next day delivery, same day delivery and flipkart advantage (Products sold by WS Retail)",
   "manifest_version": 2,
   "browser_action": {
     "default_icon": "icon_16.png",

@@ -107,7 +107,7 @@
 					
 					
 			});
-			$(".fka_spinner").hide();
+			// $(".fka_spinner").hide();
 				
 		});
 

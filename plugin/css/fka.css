@@ -3,7 +3,7 @@
 	background-image:url('chrome-extension://__MSG_@@extension_id__/images/advantage.png');
 	font-weight: bolder;
 	background-repeat: no-repeat;
-	background-position: right 2px top 2px;
+	background-position: left 2px top 2px;
 }
 
 .has-fka.has-ndd {
@@ -15,7 +15,7 @@
 
 .no-service{
 	background-repeat: no-repeat;
-	background-position: right 2px top 2px;
+	background-position: left 2px top 2px;
 	background-image:url('chrome-extension://__MSG_@@extension_id__/images/no-service.png');	
 }
 .fka_loader {
